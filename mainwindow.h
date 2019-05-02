@@ -1,6 +1,10 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#ifndef INT64_C
+#define INT64_C
+#define UINT64_C
+#endif
 using namespace std;
 extern "C"
 {

@@ -4,6 +4,15 @@
 #include <QHostAddress>
 #include <QUdpSocket>
 #include <QMessageBox>
+#include <QMutex>
+
+QMutex mutex;
+AVPicture  pAVPicture;
+AVFormatContext *pAVFormatContext;
+AVCodecContext *pAVCodecContext;
+AVFrame *pAVFrame;
+SwsContext * pSwsContext;
+AVPacket pAVPacket;
 
 QUdpSocket* UDPServer;
 
@@ -32,6 +41,11 @@ MainWindow::MainWindow(QWidget *parent) :
         return;
     }
 
+    av_register_all();//注册库中所有可用的文件格式和解码器
+    avformat_network_init();//初始化网络流格式,使用RTSP网络流时必须先执行
+    pAVFormatContext = avformat_alloc_context();//申请一个AVFormatContext结构的内存,并进行简单初始化
+    pAVFrame=av_frame_alloc();
+
     //connect slot
     connect(ui->sendButton, SIGNAL(clicked()), this, SLOT(sendData())); //绑定发送
     connect(UDPServer, SIGNAL(readyRead()), this, SLOT(recvData()));    //绑定接收
@@ -40,6 +54,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
+    avformat_free_context(pAVFormatContext);
+    av_frame_free(&pAVFrame);
+    sws_freeContext(pSwsContext);
     delete ui;
 }
 
@@ -71,5 +88,8 @@ void MainWindow::recvData()
         UDPServer->readDatagram(datagram.data(), datagram.size());
         QString msg = datagram.data();
         ui->showRecvtext->append(msg);
+
+
+
     }
 }
