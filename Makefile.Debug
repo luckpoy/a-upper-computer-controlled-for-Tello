@@ -17,7 +17,7 @@ CXXFLAGS      = -pipe -fno-keep-inline-dllexport -g -std=gnu++11 -frtti -Wall -W
 INCPATH       = -I. -I..\..\Qt_opencv\install\include -IINCLUDEPATH -I+= -I..\..\Qt_opencv\install\include\opencv -IINCLUDEPATH -I+= -I..\..\Qt_opencv\install\include\opencv2 -I..\..\FFMPEG\dev\include -I..\..\Qt\5.7\mingw53_32\include -I..\..\Qt\5.7\mingw53_32\include\QtWidgets -I..\..\Qt\5.7\mingw53_32\include\QtGui -I..\..\Qt\5.7\mingw53_32\include\QtANGLE -I..\..\Qt\5.7\mingw53_32\include\QtNetwork -I..\..\Qt\5.7\mingw53_32\include\QtCore -Idebug -I. -I..\..\Qt\5.7\mingw53_32\mkspecs\win32-g++ 
 LINKER      =        g++
 LFLAGS        =        -Wl,-subsystem,windows -mthreads
-LIBS        =        -lmingw32 -LD:\Qt\5.7\mingw53_32\lib D:\Qt\5.7\mingw53_32\lib\libqtmaind.a -lshell32 -LC:\utils\my_sql\my_sql\lib -LC:\utils\postgresql\pgsql\lib D:\Qt_opencv\install\x86\mingw\lib\libopencv_*.a D:\FFMPEG\dev\lib\libavcodec.dll.a D:\FFMPEG\dev\lib\libavdevice.dll.a D:\FFMPEG\dev\lib\libavfilter.dll.a D:\FFMPEG\dev\lib\libavformat.dll.a D:\FFMPEG\dev\lib\libavutil.dll.a D:\FFMPEG\dev\lib\libswresample.dll.a D:\FFMPEG\dev\lib\libswscale.dll.a D:\FFMPEG\dev\lib\libpostproc.dll.a D:\Qt\5.7\mingw53_32\lib\libQt5Widgetsd.a D:\Qt\5.7\mingw53_32\lib\libQt5Guid.a D:\Qt\5.7\mingw53_32\lib\libQt5Networkd.a D:\Qt\5.7\mingw53_32\lib\libQt5Cored.a debug\tello_resource_res.o 
+LIBS        =        -lmingw32 -LD:\Qt\5.7\mingw53_32\lib D:\Qt\5.7\mingw53_32\lib\libqtmaind.a -lshell32 -LC:\utils\my_sql\my_sql\lib -LC:\utils\postgresql\pgsql\lib D:\Qt_opencv\install\x86\mingw\lib\libopencv_*.a D:\FFMPEG\dev\lib\libavcodec.dll.a D:\FFMPEG\dev\lib\libavdevice.dll.a D:\FFMPEG\dev\lib\libavfilter.dll.a D:\FFMPEG\dev\lib\libavformat.dll.a D:\FFMPEG\dev\lib\libavutil.dll.a D:\FFMPEG\dev\lib\libswresample.dll.a D:\FFMPEG\dev\lib\libswscale.dll.a D:\FFMPEG\dev\lib\libpostproc.dll.a f\avcodec-58.dll f\avformat-58.dll f\avutil-56.dll f\swscale-5.dll f\swresample-3.dll D:\Qt\5.7\mingw53_32\lib\libQt5Widgetsd.a D:\Qt\5.7\mingw53_32\lib\libQt5Guid.a D:\Qt\5.7\mingw53_32\lib\libQt5Networkd.a D:\Qt\5.7\mingw53_32\lib\libQt5Cored.a debug\tello_resource_res.o 
 QMAKE         = D:\Qt\5.7\mingw53_32\bin\qmake.exe
 IDC           = idc
 IDL           = midl
@@ -44,15 +44,27 @@ OBJECTS_DIR   = debug
 ####### Files
 
 SOURCES       = main.cpp \
-		mainwindow.cpp debug\qrc_image.cpp \
-		debug\moc_mainwindow.cpp
+		mainwindow.cpp \
+		qffmpeg.cpp \
+		rtspthread.cpp debug\qrc_image.cpp \
+		debug\moc_mainwindow.cpp \
+		debug\moc_qffmpeg.cpp \
+		debug\moc_rtspthread.cpp
 OBJECTS       = debug/main.o \
 		debug/mainwindow.o \
+		debug/qffmpeg.o \
+		debug/rtspthread.o \
 		debug/qrc_image.o \
-		debug/moc_mainwindow.o
+		debug/moc_mainwindow.o \
+		debug/moc_qffmpeg.o \
+		debug/moc_rtspthread.o
 
-DIST          =  mainwindow.h main.cpp \
-		mainwindow.cpp
+DIST          =  mainwindow.h \
+		qffmpeg.h \
+		rtspthread.h main.cpp \
+		mainwindow.cpp \
+		qffmpeg.cpp \
+		rtspthread.cpp
 QMAKE_TARGET  = tello
 DESTDIR        = debug\ #avoid trailing-slash linebreak
 TARGET         = tello.exe
@@ -78,7 +90,7 @@ dist:
 	$(ZIP) tello.zip $(SOURCES) $(DIST) tello.pro ..\..\Qt\5.7\mingw53_32\mkspecs\features\spec_pre.prf ..\..\Qt\5.7\mingw53_32\mkspecs\qdevice.pri ..\..\Qt\5.7\mingw53_32\mkspecs\features\device_config.prf ..\..\Qt\5.7\mingw53_32\mkspecs\common\angle.conf ..\..\Qt\5.7\mingw53_32\mkspecs\qconfig.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_3dcore.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_3dcore_private.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_3dextras.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_3dextras_private.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_3dinput.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_3dinput_private.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_3dlogic.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_3dlogic_private.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_3dquick.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_3dquick_private.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_3dquickextras.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_3dquickextras_private.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_3dquickinput.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_3dquickinput_private.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_3dquickrender.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_3dquickrender_private.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_3drender.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_3drender_private.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_axbase.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_axbase_private.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_axcontainer.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_axcontainer_private.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_axserver.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_axserver_private.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_bluetooth.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_bluetooth_private.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_bootstrap_private.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_charts.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_charts_private.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_clucene_private.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_concurrent.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_concurrent_private.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_core.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_core_private.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_dbus.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_dbus_private.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_designer.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_designer_private.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_designercomponents_private.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_gamepad.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_gamepad_private.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_gui.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_gui_private.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_help.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_help_private.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_location.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_location_private.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_multimedia.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_multimedia_private.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_multimediawidgets.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_multimediawidgets_private.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_network.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_network_private.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_nfc.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_nfc_private.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_opengl.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_opengl_private.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_openglextensions.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_openglextensions_private.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_packetprotocol_private.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_platformsupport_private.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_positioning.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_positioning_private.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_printsupport.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_printsupport_private.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_purchasing.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_purchasing_private.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_qml.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_qml_private.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_qmldebug_private.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_qmldevtools_private.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_qmltest.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_qmltest_private.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_qtmultimediaquicktools_private.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_quick.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_quick_private.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_quickcontrols2.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_quickcontrols2_private.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_quickparticles_private.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_quicktemplates2_private.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_quickwidgets.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_quickwidgets_private.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_script.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_script_private.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_scripttools.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_scripttools_private.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_scxml.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_scxml_private.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_sensors.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_sensors_private.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_serialbus.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_serialbus_private.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_serialport.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_serialport_private.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_sql.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_sql_private.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_svg.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_svg_private.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_testlib.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_testlib_private.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_uiplugin.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_uitools.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_uitools_private.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_webchannel.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_webchannel_private.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_websockets.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_websockets_private.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_widgets.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_widgets_private.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_winextras.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_winextras_private.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_xml.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_xml_private.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_xmlpatterns.pri ..\..\Qt\5.7\mingw53_32\mkspecs\modules\qt_lib_xmlpatterns_private.pri ..\..\Qt\5.7\mingw53_32\mkspecs\features\qt_functions.prf ..\..\Qt\5.7\mingw53_32\mkspecs\features\qt_config.prf ..\..\Qt\5.7\mingw53_32\mkspecs\features\win32\qt_config.prf ..\..\Qt\5.7\mingw53_32\mkspecs\win32-g++\qmake.conf ..\..\Qt\5.7\mingw53_32\mkspecs\features\spec_post.prf .qmake.stash ..\..\Qt\5.7\mingw53_32\mkspecs\features\exclusive_builds.prf ..\..\Qt\5.7\mingw53_32\mkspecs\features\toolchain.prf ..\..\Qt\5.7\mingw53_32\mkspecs\features\default_pre.prf ..\..\Qt\5.7\mingw53_32\mkspecs\features\win32\default_pre.prf ..\..\Qt\5.7\mingw53_32\mkspecs\features\resolve_config.prf ..\..\Qt\5.7\mingw53_32\mkspecs\features\exclusive_builds_post.prf ..\..\Qt\5.7\mingw53_32\mkspecs\features\default_post.prf ..\..\Qt\5.7\mingw53_32\mkspecs\features\build_pass.prf ..\..\Qt\5.7\mingw53_32\mkspecs\features\win32\rtti.prf ..\..\Qt\5.7\mingw53_32\mkspecs\features\precompile_header.prf ..\..\Qt\5.7\mingw53_32\mkspecs\features\warn_on.prf ..\..\Qt\5.7\mingw53_32\mkspecs\features\qt.prf ..\..\Qt\5.7\mingw53_32\mkspecs\features\resources.prf ..\..\Qt\5.7\mingw53_32\mkspecs\features\moc.prf ..\..\Qt\5.7\mingw53_32\mkspecs\features\win32\opengl.prf ..\..\Qt\5.7\mingw53_32\mkspecs\features\uic.prf ..\..\Qt\5.7\mingw53_32\mkspecs\features\file_copies.prf ..\..\Qt\5.7\mingw53_32\mkspecs\features\win32\windows.prf ..\..\Qt\5.7\mingw53_32\mkspecs\features\testcase_targets.prf ..\..\Qt\5.7\mingw53_32\mkspecs\features\exceptions.prf ..\..\Qt\5.7\mingw53_32\mkspecs\features\yacc.prf ..\..\Qt\5.7\mingw53_32\mkspecs\features\lex.prf tello.pro image.qrc ..\..\Qt\5.7\mingw53_32\lib\qtmaind.prl ..\..\Qt\5.7\mingw53_32\lib\Qt5Widgetsd.prl ..\..\Qt\5.7\mingw53_32\lib\Qt5Guid.prl ..\..\Qt\5.7\mingw53_32\lib\Qt5Networkd.prl ..\..\Qt\5.7\mingw53_32\lib\Qt5Cored.prl  NO_PCH_SOURCES RESOURCES HEADERS SOURCES OBJECTIVE_SOURCES FORMS YACCSOURCES YACCSOURCES LEXSOURCES 
 
 clean: compiler_clean 
-	-$(DEL_FILE) debug\main.o debug\mainwindow.o debug\qrc_image.o debug\moc_mainwindow.o
+	-$(DEL_FILE) debug\main.o debug\mainwindow.o debug\qffmpeg.o debug\rtspthread.o debug\qrc_image.o debug\moc_mainwindow.o debug\moc_qffmpeg.o debug\moc_rtspthread.o
 	-$(DEL_FILE) debug\tello_resource_res.o
 
 distclean: clean 
@@ -104,9 +116,9 @@ debug/qrc_image.cpp: image.qrc \
 		logo.png
 	D:\Qt\5.7\mingw53_32\bin\rcc.exe -name image image.qrc -o debug\qrc_image.cpp
 
-compiler_moc_header_make_all: debug/moc_mainwindow.cpp
+compiler_moc_header_make_all: debug/moc_mainwindow.cpp debug/moc_qffmpeg.cpp debug/moc_rtspthread.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) debug\moc_mainwindow.cpp
+	-$(DEL_FILE) debug\moc_mainwindow.cpp debug\moc_qffmpeg.cpp debug\moc_rtspthread.cpp
 debug/moc_mainwindow.cpp: ../../FFMPEG/dev/include/libavcodec/avcodec.h \
 		../../FFMPEG/dev/include/libavutil/samplefmt.h \
 		../../FFMPEG/dev/include/libavutil/avutil.h \
@@ -239,6 +251,217 @@ debug/moc_mainwindow.cpp: ../../FFMPEG/dev/include/libavcodec/avcodec.h \
 		mainwindow.h \
 		../../Qt/5.7/mingw53_32/bin/moc.exe
 	D:\Qt\5.7\mingw53_32\bin\moc.exe $(DEFINES) -D__GNUC__ -DWIN32 -ID:/Qt/5.7/mingw53_32/mkspecs/win32-g++ -ID:/tello/tello -ID:/Qt_opencv/install/include -ID:/tello/tello/INCLUDEPATH -I"D:/tello/tello/+=" -ID:/Qt_opencv/install/include/opencv -ID:/tello/tello/INCLUDEPATH -I"D:/tello/tello/+=" -ID:/Qt_opencv/install/include/opencv2 -ID:/FFMPEG/dev/include -ID:/Qt/5.7/mingw53_32/include -ID:/Qt/5.7/mingw53_32/include/QtWidgets -ID:/Qt/5.7/mingw53_32/include/QtGui -ID:/Qt/5.7/mingw53_32/include/QtANGLE -ID:/Qt/5.7/mingw53_32/include/QtNetwork -ID:/Qt/5.7/mingw53_32/include/QtCore -ID:/Qt/Tools/mingw530_32/lib/gcc/i686-w64-mingw32/5.3.0/include -ID:/Qt/Tools/mingw530_32/lib/gcc/i686-w64-mingw32/5.3.0/include-fixed -ID:/Qt/Tools/mingw530_32/i686-w64-mingw32/include -ID:/Qt/Tools/mingw530_32/i686-w64-mingw32/include/c++ -ID:/Qt/Tools/mingw530_32/i686-w64-mingw32/include/c++/i686-w64-mingw32 -ID:/Qt/Tools/mingw530_32/i686-w64-mingw32/include/c++/backward mainwindow.h -o debug\moc_mainwindow.cpp
+
+debug/moc_qffmpeg.cpp: ../../FFMPEG/dev/include/libavcodec/avcodec.h \
+		../../FFMPEG/dev/include/libavutil/samplefmt.h \
+		../../FFMPEG/dev/include/libavutil/avutil.h \
+		../../FFMPEG/dev/include/libavutil/common.h \
+		../../FFMPEG/dev/include/libavutil/attributes.h \
+		../../FFMPEG/dev/include/libavutil/macros.h \
+		../../FFMPEG/dev/include/libavcodec/version.h \
+		../../FFMPEG/dev/include/libavutil/version.h \
+		../../FFMPEG/dev/include/libavutil/avconfig.h \
+		../../FFMPEG/dev/include/libavutil/mem.h \
+		../../FFMPEG/dev/include/libavutil/error.h \
+		../../FFMPEG/dev/include/libavutil/rational.h \
+		../../FFMPEG/dev/include/libavutil/mathematics.h \
+		../../FFMPEG/dev/include/libavutil/intfloat.h \
+		../../FFMPEG/dev/include/libavutil/log.h \
+		../../FFMPEG/dev/include/libavutil/pixfmt.h \
+		../../FFMPEG/dev/include/libavutil/buffer.h \
+		../../FFMPEG/dev/include/libavutil/cpu.h \
+		../../FFMPEG/dev/include/libavutil/channel_layout.h \
+		../../FFMPEG/dev/include/libavutil/dict.h \
+		../../FFMPEG/dev/include/libavutil/frame.h \
+		../../FFMPEG/dev/include/libavutil/hwcontext.h \
+		../../FFMPEG/dev/include/libavformat/avformat.h \
+		../../FFMPEG/dev/include/libavformat/avio.h \
+		../../FFMPEG/dev/include/libavformat/version.h \
+		../../FFMPEG/dev/include/libswscale/swscale.h \
+		../../FFMPEG/dev/include/libavdevice/avdevice.h \
+		../../FFMPEG/dev/include/libavutil/opt.h \
+		../../FFMPEG/dev/include/libavutil/time.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/QObject \
+		../../Qt/5.7/mingw53_32/include/QtCore/qobject.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qobjectdefs.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qnamespace.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qglobal.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qconfig.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qfeatures.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qsystemdetection.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qprocessordetection.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qcompilerdetection.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qtypeinfo.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qtypetraits.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qisenum.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qsysinfo.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qlogging.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qflags.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qatomic.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qbasicatomic.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qatomic_bootstrap.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qgenericatomic.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qatomic_cxx11.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qatomic_msvc.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qglobalstatic.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qmutex.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qnumeric.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qversiontagging.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qobjectdefs_impl.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qstring.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qchar.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qbytearray.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qrefcount.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qarraydata.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qstringbuilder.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qlist.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qalgorithms.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qiterator.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qhashfunctions.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qpair.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qbytearraylist.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qstringlist.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qregexp.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qstringmatcher.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qcoreevent.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qscopedpointer.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qmetatype.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qvarlengtharray.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qcontainerfwd.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qobject_impl.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/QMutex \
+		../../Qt/5.7/mingw53_32/include/QtGui/QImage \
+		../../Qt/5.7/mingw53_32/include/QtGui/qimage.h \
+		../../Qt/5.7/mingw53_32/include/QtGui/qcolor.h \
+		../../Qt/5.7/mingw53_32/include/QtGui/qrgb.h \
+		../../Qt/5.7/mingw53_32/include/QtGui/qrgba64.h \
+		../../Qt/5.7/mingw53_32/include/QtGui/qpaintdevice.h \
+		../../Qt/5.7/mingw53_32/include/QtGui/qwindowdefs.h \
+		../../Qt/5.7/mingw53_32/include/QtGui/qwindowdefs_win.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qrect.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qmargins.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qsize.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qpoint.h \
+		../../Qt/5.7/mingw53_32/include/QtGui/qpixelformat.h \
+		../../Qt/5.7/mingw53_32/include/QtGui/qtransform.h \
+		../../Qt/5.7/mingw53_32/include/QtGui/qmatrix.h \
+		../../Qt/5.7/mingw53_32/include/QtGui/qpolygon.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qvector.h \
+		../../Qt/5.7/mingw53_32/include/QtGui/qregion.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qdatastream.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qiodevice.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qline.h \
+		../../Qt/5.7/mingw53_32/include/QtGui/qpainterpath.h \
+		qffmpeg.h \
+		../../Qt/5.7/mingw53_32/bin/moc.exe
+	D:\Qt\5.7\mingw53_32\bin\moc.exe $(DEFINES) -D__GNUC__ -DWIN32 -ID:/Qt/5.7/mingw53_32/mkspecs/win32-g++ -ID:/tello/tello -ID:/Qt_opencv/install/include -ID:/tello/tello/INCLUDEPATH -I"D:/tello/tello/+=" -ID:/Qt_opencv/install/include/opencv -ID:/tello/tello/INCLUDEPATH -I"D:/tello/tello/+=" -ID:/Qt_opencv/install/include/opencv2 -ID:/FFMPEG/dev/include -ID:/Qt/5.7/mingw53_32/include -ID:/Qt/5.7/mingw53_32/include/QtWidgets -ID:/Qt/5.7/mingw53_32/include/QtGui -ID:/Qt/5.7/mingw53_32/include/QtANGLE -ID:/Qt/5.7/mingw53_32/include/QtNetwork -ID:/Qt/5.7/mingw53_32/include/QtCore -ID:/Qt/Tools/mingw530_32/lib/gcc/i686-w64-mingw32/5.3.0/include -ID:/Qt/Tools/mingw530_32/lib/gcc/i686-w64-mingw32/5.3.0/include-fixed -ID:/Qt/Tools/mingw530_32/i686-w64-mingw32/include -ID:/Qt/Tools/mingw530_32/i686-w64-mingw32/include/c++ -ID:/Qt/Tools/mingw530_32/i686-w64-mingw32/include/c++/i686-w64-mingw32 -ID:/Qt/Tools/mingw530_32/i686-w64-mingw32/include/c++/backward qffmpeg.h -o debug\moc_qffmpeg.cpp
+
+debug/moc_rtspthread.cpp: ../../Qt/5.7/mingw53_32/include/QtCore/QThread \
+		../../Qt/5.7/mingw53_32/include/QtCore/qthread.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qobject.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qobjectdefs.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qnamespace.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qglobal.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qconfig.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qfeatures.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qsystemdetection.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qprocessordetection.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qcompilerdetection.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qtypeinfo.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qtypetraits.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qisenum.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qsysinfo.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qlogging.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qflags.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qatomic.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qbasicatomic.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qatomic_bootstrap.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qgenericatomic.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qatomic_cxx11.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qatomic_msvc.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qglobalstatic.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qmutex.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qnumeric.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qversiontagging.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qobjectdefs_impl.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qstring.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qchar.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qbytearray.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qrefcount.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qarraydata.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qstringbuilder.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qlist.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qalgorithms.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qiterator.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qhashfunctions.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qpair.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qbytearraylist.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qstringlist.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qregexp.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qstringmatcher.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qcoreevent.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qscopedpointer.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qmetatype.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qvarlengtharray.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qcontainerfwd.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qobject_impl.h \
+		qffmpeg.h \
+		../../FFMPEG/dev/include/libavcodec/avcodec.h \
+		../../FFMPEG/dev/include/libavutil/samplefmt.h \
+		../../FFMPEG/dev/include/libavutil/avutil.h \
+		../../FFMPEG/dev/include/libavutil/common.h \
+		../../FFMPEG/dev/include/libavutil/attributes.h \
+		../../FFMPEG/dev/include/libavutil/macros.h \
+		../../FFMPEG/dev/include/libavcodec/version.h \
+		../../FFMPEG/dev/include/libavutil/version.h \
+		../../FFMPEG/dev/include/libavutil/avconfig.h \
+		../../FFMPEG/dev/include/libavutil/mem.h \
+		../../FFMPEG/dev/include/libavutil/error.h \
+		../../FFMPEG/dev/include/libavutil/rational.h \
+		../../FFMPEG/dev/include/libavutil/mathematics.h \
+		../../FFMPEG/dev/include/libavutil/intfloat.h \
+		../../FFMPEG/dev/include/libavutil/log.h \
+		../../FFMPEG/dev/include/libavutil/pixfmt.h \
+		../../FFMPEG/dev/include/libavutil/buffer.h \
+		../../FFMPEG/dev/include/libavutil/cpu.h \
+		../../FFMPEG/dev/include/libavutil/channel_layout.h \
+		../../FFMPEG/dev/include/libavutil/dict.h \
+		../../FFMPEG/dev/include/libavutil/frame.h \
+		../../FFMPEG/dev/include/libavutil/hwcontext.h \
+		../../FFMPEG/dev/include/libavformat/avformat.h \
+		../../FFMPEG/dev/include/libavformat/avio.h \
+		../../FFMPEG/dev/include/libavformat/version.h \
+		../../FFMPEG/dev/include/libswscale/swscale.h \
+		../../FFMPEG/dev/include/libavdevice/avdevice.h \
+		../../FFMPEG/dev/include/libavutil/opt.h \
+		../../FFMPEG/dev/include/libavutil/time.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/QObject \
+		../../Qt/5.7/mingw53_32/include/QtCore/QMutex \
+		../../Qt/5.7/mingw53_32/include/QtGui/QImage \
+		../../Qt/5.7/mingw53_32/include/QtGui/qimage.h \
+		../../Qt/5.7/mingw53_32/include/QtGui/qcolor.h \
+		../../Qt/5.7/mingw53_32/include/QtGui/qrgb.h \
+		../../Qt/5.7/mingw53_32/include/QtGui/qrgba64.h \
+		../../Qt/5.7/mingw53_32/include/QtGui/qpaintdevice.h \
+		../../Qt/5.7/mingw53_32/include/QtGui/qwindowdefs.h \
+		../../Qt/5.7/mingw53_32/include/QtGui/qwindowdefs_win.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qrect.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qmargins.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qsize.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qpoint.h \
+		../../Qt/5.7/mingw53_32/include/QtGui/qpixelformat.h \
+		../../Qt/5.7/mingw53_32/include/QtGui/qtransform.h \
+		../../Qt/5.7/mingw53_32/include/QtGui/qmatrix.h \
+		../../Qt/5.7/mingw53_32/include/QtGui/qpolygon.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qvector.h \
+		../../Qt/5.7/mingw53_32/include/QtGui/qregion.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qdatastream.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qiodevice.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qline.h \
+		../../Qt/5.7/mingw53_32/include/QtGui/qpainterpath.h \
+		rtspthread.h \
+		../../Qt/5.7/mingw53_32/bin/moc.exe
+	D:\Qt\5.7\mingw53_32\bin\moc.exe $(DEFINES) -D__GNUC__ -DWIN32 -ID:/Qt/5.7/mingw53_32/mkspecs/win32-g++ -ID:/tello/tello -ID:/Qt_opencv/install/include -ID:/tello/tello/INCLUDEPATH -I"D:/tello/tello/+=" -ID:/Qt_opencv/install/include/opencv -ID:/tello/tello/INCLUDEPATH -I"D:/tello/tello/+=" -ID:/Qt_opencv/install/include/opencv2 -ID:/FFMPEG/dev/include -ID:/Qt/5.7/mingw53_32/include -ID:/Qt/5.7/mingw53_32/include/QtWidgets -ID:/Qt/5.7/mingw53_32/include/QtGui -ID:/Qt/5.7/mingw53_32/include/QtANGLE -ID:/Qt/5.7/mingw53_32/include/QtNetwork -ID:/Qt/5.7/mingw53_32/include/QtCore -ID:/Qt/Tools/mingw530_32/lib/gcc/i686-w64-mingw32/5.3.0/include -ID:/Qt/Tools/mingw530_32/lib/gcc/i686-w64-mingw32/5.3.0/include-fixed -ID:/Qt/Tools/mingw530_32/i686-w64-mingw32/include -ID:/Qt/Tools/mingw530_32/i686-w64-mingw32/include/c++ -ID:/Qt/Tools/mingw530_32/i686-w64-mingw32/include/c++/i686-w64-mingw32 -ID:/Qt/Tools/mingw530_32/i686-w64-mingw32/include/c++/backward rtspthread.h -o debug\moc_rtspthread.cpp
 
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
@@ -577,6 +800,42 @@ debug/mainwindow.o: mainwindow.cpp mainwindow.h \
 		../../Qt/5.7/mingw53_32/include/QtWidgets/qtextedit.h \
 		../../Qt/5.7/mingw53_32/include/QtGui/qtextdocument.h \
 		../../Qt/5.7/mingw53_32/include/QtWidgets/QWidget \
+		qffmpeg.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/QObject \
+		../../Qt/5.7/mingw53_32/include/QtCore/QMutex \
+		../../Qt/5.7/mingw53_32/include/QtGui/QImage \
+		rtspthread.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/QThread \
+		../../Qt/5.7/mingw53_32/include/QtCore/qthread.h \
+		../../Qt_opencv/install/include/opencv2/opencv.hpp \
+		../../Qt_opencv/install/include/opencv2/opencv_modules.hpp \
+		../../Qt_opencv/install/include/opencv2/core/core_c.h \
+		../../Qt_opencv/install/include/opencv2/core/types_c.h \
+		../../Qt_opencv/install/include/opencv2/core/core.hpp \
+		../../Qt_opencv/install/include/opencv2/core/version.hpp \
+		../../Qt_opencv/install/include/opencv2/core/operations.hpp \
+		../../Qt_opencv/install/include/opencv2/core/mat.hpp \
+		../../Qt_opencv/install/include/opencv2/flann/miniflann.hpp \
+		../../Qt_opencv/install/include/opencv2/flann/defines.h \
+		../../Qt_opencv/install/include/opencv2/flann/config.h \
+		../../Qt_opencv/install/include/opencv2/imgproc/imgproc_c.h \
+		../../Qt_opencv/install/include/opencv2/imgproc/types_c.h \
+		../../Qt_opencv/install/include/opencv2/imgproc/imgproc.hpp \
+		../../Qt_opencv/install/include/opencv2/photo/photo.hpp \
+		../../Qt_opencv/install/include/opencv2/photo/photo_c.h \
+		../../Qt_opencv/install/include/opencv2/video/video.hpp \
+		../../Qt_opencv/install/include/opencv2/video/tracking.hpp \
+		../../Qt_opencv/install/include/opencv2/video/background_segm.hpp \
+		../../Qt_opencv/install/include/opencv2/features2d/features2d.hpp \
+		../../Qt_opencv/install/include/opencv2/objdetect/objdetect.hpp \
+		../../Qt_opencv/install/include/opencv2/calib3d/calib3d.hpp \
+		../../Qt_opencv/install/include/opencv2/core/affine.hpp \
+		../../Qt_opencv/install/include/opencv2/ml/ml.hpp \
+		../../Qt_opencv/install/include/opencv2/highgui/highgui_c.h \
+		../../Qt_opencv/install/include/opencv2/highgui/highgui.hpp \
+		../../Qt_opencv/install/include/opencv2/contrib/contrib.hpp \
+		../../Qt_opencv/install/include/opencv2/contrib/retina.hpp \
+		../../Qt_opencv/install/include/opencv2/contrib/openfabmap.hpp \
 		../../Qt/5.7/mingw53_32/include/QtCore/QDebug \
 		../../Qt/5.7/mingw53_32/include/QtNetwork/QHostAddress \
 		../../Qt/5.7/mingw53_32/include/QtNetwork/qhostaddress.h \
@@ -585,14 +844,249 @@ debug/mainwindow.o: mainwindow.cpp mainwindow.h \
 		../../Qt/5.7/mingw53_32/include/QtNetwork/qudpsocket.h \
 		../../Qt/5.7/mingw53_32/include/QtWidgets/QMessageBox \
 		../../Qt/5.7/mingw53_32/include/QtWidgets/qmessagebox.h \
-		../../Qt/5.7/mingw53_32/include/QtWidgets/qdialog.h
+		../../Qt/5.7/mingw53_32/include/QtWidgets/qdialog.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/QBuffer \
+		../../Qt/5.7/mingw53_32/include/QtCore/qbuffer.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/QTime \
+		../../Qt/5.7/mingw53_32/include/QtCore/qdatetime.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/QDateTime \
+		../../Qt/5.7/mingw53_32/include/QtCore/QFile
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\mainwindow.o mainwindow.cpp
+
+debug/qffmpeg.o: qffmpeg.cpp qffmpeg.h \
+		../../FFMPEG/dev/include/libavcodec/avcodec.h \
+		../../FFMPEG/dev/include/libavutil/samplefmt.h \
+		../../FFMPEG/dev/include/libavutil/avutil.h \
+		../../FFMPEG/dev/include/libavutil/common.h \
+		../../FFMPEG/dev/include/libavutil/attributes.h \
+		../../FFMPEG/dev/include/libavutil/macros.h \
+		../../FFMPEG/dev/include/libavcodec/version.h \
+		../../FFMPEG/dev/include/libavutil/version.h \
+		../../FFMPEG/dev/include/libavutil/avconfig.h \
+		../../FFMPEG/dev/include/libavutil/mem.h \
+		../../FFMPEG/dev/include/libavutil/error.h \
+		../../FFMPEG/dev/include/libavutil/rational.h \
+		../../FFMPEG/dev/include/libavutil/mathematics.h \
+		../../FFMPEG/dev/include/libavutil/intfloat.h \
+		../../FFMPEG/dev/include/libavutil/log.h \
+		../../FFMPEG/dev/include/libavutil/pixfmt.h \
+		../../FFMPEG/dev/include/libavutil/buffer.h \
+		../../FFMPEG/dev/include/libavutil/cpu.h \
+		../../FFMPEG/dev/include/libavutil/channel_layout.h \
+		../../FFMPEG/dev/include/libavutil/dict.h \
+		../../FFMPEG/dev/include/libavutil/frame.h \
+		../../FFMPEG/dev/include/libavutil/hwcontext.h \
+		../../FFMPEG/dev/include/libavformat/avformat.h \
+		../../FFMPEG/dev/include/libavformat/avio.h \
+		../../FFMPEG/dev/include/libavformat/version.h \
+		../../FFMPEG/dev/include/libswscale/swscale.h \
+		../../FFMPEG/dev/include/libavdevice/avdevice.h \
+		../../FFMPEG/dev/include/libavutil/opt.h \
+		../../FFMPEG/dev/include/libavutil/time.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/QObject \
+		../../Qt/5.7/mingw53_32/include/QtCore/qobject.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qobjectdefs.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qnamespace.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qglobal.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qconfig.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qfeatures.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qsystemdetection.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qprocessordetection.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qcompilerdetection.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qtypeinfo.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qtypetraits.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qisenum.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qsysinfo.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qlogging.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qflags.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qatomic.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qbasicatomic.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qatomic_bootstrap.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qgenericatomic.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qatomic_cxx11.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qatomic_msvc.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qglobalstatic.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qmutex.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qnumeric.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qversiontagging.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qobjectdefs_impl.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qstring.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qchar.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qbytearray.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qrefcount.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qarraydata.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qstringbuilder.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qlist.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qalgorithms.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qiterator.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qhashfunctions.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qpair.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qbytearraylist.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qstringlist.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qregexp.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qstringmatcher.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qcoreevent.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qscopedpointer.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qmetatype.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qvarlengtharray.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qcontainerfwd.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qobject_impl.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/QMutex \
+		../../Qt/5.7/mingw53_32/include/QtGui/QImage \
+		../../Qt/5.7/mingw53_32/include/QtGui/qimage.h \
+		../../Qt/5.7/mingw53_32/include/QtGui/qcolor.h \
+		../../Qt/5.7/mingw53_32/include/QtGui/qrgb.h \
+		../../Qt/5.7/mingw53_32/include/QtGui/qrgba64.h \
+		../../Qt/5.7/mingw53_32/include/QtGui/qpaintdevice.h \
+		../../Qt/5.7/mingw53_32/include/QtGui/qwindowdefs.h \
+		../../Qt/5.7/mingw53_32/include/QtGui/qwindowdefs_win.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qrect.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qmargins.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qsize.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qpoint.h \
+		../../Qt/5.7/mingw53_32/include/QtGui/qpixelformat.h \
+		../../Qt/5.7/mingw53_32/include/QtGui/qtransform.h \
+		../../Qt/5.7/mingw53_32/include/QtGui/qmatrix.h \
+		../../Qt/5.7/mingw53_32/include/QtGui/qpolygon.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qvector.h \
+		../../Qt/5.7/mingw53_32/include/QtGui/qregion.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qdatastream.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qiodevice.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qline.h \
+		../../Qt/5.7/mingw53_32/include/QtGui/qpainterpath.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/QDateTime \
+		../../Qt/5.7/mingw53_32/include/QtCore/qdatetime.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qshareddata.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qhash.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/QDebug \
+		../../Qt/5.7/mingw53_32/include/QtCore/qdebug.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qmap.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qtextstream.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qlocale.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qvariant.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qset.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qcontiguouscache.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qsharedpointer.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qsharedpointer_impl.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\qffmpeg.o qffmpeg.cpp
+
+debug/rtspthread.o: rtspthread.cpp rtspthread.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/QThread \
+		../../Qt/5.7/mingw53_32/include/QtCore/qthread.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qobject.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qobjectdefs.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qnamespace.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qglobal.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qconfig.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qfeatures.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qsystemdetection.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qprocessordetection.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qcompilerdetection.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qtypeinfo.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qtypetraits.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qisenum.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qsysinfo.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qlogging.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qflags.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qatomic.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qbasicatomic.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qatomic_bootstrap.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qgenericatomic.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qatomic_cxx11.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qatomic_msvc.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qglobalstatic.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qmutex.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qnumeric.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qversiontagging.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qobjectdefs_impl.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qstring.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qchar.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qbytearray.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qrefcount.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qarraydata.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qstringbuilder.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qlist.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qalgorithms.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qiterator.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qhashfunctions.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qpair.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qbytearraylist.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qstringlist.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qregexp.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qstringmatcher.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qcoreevent.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qscopedpointer.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qmetatype.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qvarlengtharray.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qcontainerfwd.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qobject_impl.h \
+		qffmpeg.h \
+		../../FFMPEG/dev/include/libavcodec/avcodec.h \
+		../../FFMPEG/dev/include/libavutil/samplefmt.h \
+		../../FFMPEG/dev/include/libavutil/avutil.h \
+		../../FFMPEG/dev/include/libavutil/common.h \
+		../../FFMPEG/dev/include/libavutil/attributes.h \
+		../../FFMPEG/dev/include/libavutil/macros.h \
+		../../FFMPEG/dev/include/libavcodec/version.h \
+		../../FFMPEG/dev/include/libavutil/version.h \
+		../../FFMPEG/dev/include/libavutil/avconfig.h \
+		../../FFMPEG/dev/include/libavutil/mem.h \
+		../../FFMPEG/dev/include/libavutil/error.h \
+		../../FFMPEG/dev/include/libavutil/rational.h \
+		../../FFMPEG/dev/include/libavutil/mathematics.h \
+		../../FFMPEG/dev/include/libavutil/intfloat.h \
+		../../FFMPEG/dev/include/libavutil/log.h \
+		../../FFMPEG/dev/include/libavutil/pixfmt.h \
+		../../FFMPEG/dev/include/libavutil/buffer.h \
+		../../FFMPEG/dev/include/libavutil/cpu.h \
+		../../FFMPEG/dev/include/libavutil/channel_layout.h \
+		../../FFMPEG/dev/include/libavutil/dict.h \
+		../../FFMPEG/dev/include/libavutil/frame.h \
+		../../FFMPEG/dev/include/libavutil/hwcontext.h \
+		../../FFMPEG/dev/include/libavformat/avformat.h \
+		../../FFMPEG/dev/include/libavformat/avio.h \
+		../../FFMPEG/dev/include/libavformat/version.h \
+		../../FFMPEG/dev/include/libswscale/swscale.h \
+		../../FFMPEG/dev/include/libavdevice/avdevice.h \
+		../../FFMPEG/dev/include/libavutil/opt.h \
+		../../FFMPEG/dev/include/libavutil/time.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/QObject \
+		../../Qt/5.7/mingw53_32/include/QtCore/QMutex \
+		../../Qt/5.7/mingw53_32/include/QtGui/QImage \
+		../../Qt/5.7/mingw53_32/include/QtGui/qimage.h \
+		../../Qt/5.7/mingw53_32/include/QtGui/qcolor.h \
+		../../Qt/5.7/mingw53_32/include/QtGui/qrgb.h \
+		../../Qt/5.7/mingw53_32/include/QtGui/qrgba64.h \
+		../../Qt/5.7/mingw53_32/include/QtGui/qpaintdevice.h \
+		../../Qt/5.7/mingw53_32/include/QtGui/qwindowdefs.h \
+		../../Qt/5.7/mingw53_32/include/QtGui/qwindowdefs_win.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qrect.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qmargins.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qsize.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qpoint.h \
+		../../Qt/5.7/mingw53_32/include/QtGui/qpixelformat.h \
+		../../Qt/5.7/mingw53_32/include/QtGui/qtransform.h \
+		../../Qt/5.7/mingw53_32/include/QtGui/qmatrix.h \
+		../../Qt/5.7/mingw53_32/include/QtGui/qpolygon.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qvector.h \
+		../../Qt/5.7/mingw53_32/include/QtGui/qregion.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qdatastream.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qiodevice.h \
+		../../Qt/5.7/mingw53_32/include/QtCore/qline.h \
+		../../Qt/5.7/mingw53_32/include/QtGui/qpainterpath.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\rtspthread.o rtspthread.cpp
 
 debug/qrc_image.o: debug/qrc_image.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\qrc_image.o debug\qrc_image.cpp
 
 debug/moc_mainwindow.o: debug/moc_mainwindow.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\moc_mainwindow.o debug\moc_mainwindow.cpp
+
+debug/moc_qffmpeg.o: debug/moc_qffmpeg.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\moc_qffmpeg.o debug\moc_qffmpeg.cpp
+
+debug/moc_rtspthread.o: debug/moc_rtspthread.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\moc_rtspthread.o debug\moc_rtspthread.cpp
 
 ####### Install
 

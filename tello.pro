@@ -25,9 +25,13 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp
+        mainwindow.cpp \
+    qffmpeg.cpp \
+    rtspthread.cpp
 
-HEADERS  += mainwindow.h
+HEADERS  += mainwindow.h \
+    qffmpeg.h \
+    rtspthread.h
 
 FORMS    += mainwindow.ui
 
@@ -50,4 +54,10 @@ LIBS+=D:/FFMPEG/dev/lib/libavcodec.dll.a\
       D:/FFMPEG/dev/lib/libavutil.dll.a\
       D:/FFMPEG/dev/lib/libswresample.dll.a\
       D:/FFMPEG/dev/lib/libswscale.dll.a\
-      D:/FFMPEG/dev/lib/libpostproc.dll.a
+      D:/FFMPEG/dev/lib/libpostproc.dll.a\
+      f/avcodec-58.dll\
+      f/avformat-58.dll\
+      f/avutil-56.dll\
+      f/swscale-5.dll\
+      f/swresample-3.dll\
+

@@ -35,10 +35,24 @@ private:
     Ui::MainWindow *ui;
     int sendport;
     int recvport;
+    float chazhi;
+    int chazhi1;
+    void send(QString str);
+   // void encode();
+   // bool Init();
 
 private slots:
+    void myconnect();
+    void udp();
     void sendData();
     void recvData();
+    void streamon();
+    void SetImage(const QImage &image);
+    void controlsend();
+    void controlstart();
+
+signals:
+    void contorl();
 };
 
 #endif // MAINWINDOW_H
