@@ -2,4 +2,7 @@
     <qresource prefix="/image/logo">
         <file>logo.png</file>
     </qresource>
+    <qresource prefix="/image/back">
+        <file>beijing.jpg</file>
+    </qresource>
 </RCC>

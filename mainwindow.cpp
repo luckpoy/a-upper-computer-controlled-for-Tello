@@ -29,6 +29,10 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     setWindowIcon(QIcon("logo.ico"));
     setWindowTitle(tr("Tello Control Terminal Of PC"));
+    QPixmap pixmap = QPixmap(":/image/back/beijing.jpg").scaled(this->size());
+    QPalette palette(this->palette());
+    palette.setBrush(QPalette::Background, QBrush(pixmap));
+    this->setPalette(palette);
 
     UDPServer = new QUdpSocket();
 

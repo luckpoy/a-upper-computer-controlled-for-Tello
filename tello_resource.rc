@@ -4,7 +4,7 @@
 #  include <windows.h>
 # endif
 
-IDI_ICON1	ICON	DISCARDABLE	"D:\\tello\\tello\\logo.ico"
+IDI_ICON1	ICON	DISCARDABLE	"E:\\tello\\tello\\logo.ico"
 
 VS_VERSION_INFO VERSIONINFO
 	FILEVERSION 0,0,0,0
